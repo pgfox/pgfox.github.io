@@ -9,17 +9,15 @@ theme:
 
 nav:
   - Home: index.md
-  - Portfolio: portfolio.md
+  - Projects:
+      - Overview: projects/index.md
+      - Git Metrics Pipeline: projects/git-metrics.md
   - About me: aboutme.md
   - Contact: contact.md
 
 extra:
   logo: ["Patrick ", Fox]
+  subtitle: ["Engineering ", Notebook]
   tagline: Software Engineering | Data Engineering | Applied Data Science
-  sidebar:
-    - { title: Overview, url: "", icon: "⌂" }
-    - { title: Portfolio, url: portfolio/, icon: "▦" }
-    - { title: About me, url: aboutme/, icon: "◫" }
-    - { title: Contact, url: contact/, icon: "✉" }
 
 plugins: []
