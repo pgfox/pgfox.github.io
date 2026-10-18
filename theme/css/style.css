@@ -1,0 +1,54 @@
+:root {
+  --bg: #161616;
+  --fg: #ededed;
+  --muted: #a0a0a0;
+  --underline: #5a5a5a;
+  --sans: "Inter", system-ui, -apple-system, sans-serif;
+  --serif: "Newsreader", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 16px 80px;
+}
+
+header { margin-bottom: 32px; }
+
+.site-name {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+article p { margin: 0 0 28px; }
+
+em {
+  font-family: var(--serif);
+  font-size: 1.06em;
+}
+
+.muted { color: var(--muted); }
+
+a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+
+a:hover { text-decoration-color: var(--fg); }

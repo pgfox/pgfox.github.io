@@ -1,0 +1,10 @@
+site_name: pgfox
+site_url: https://pgfox.dev/
+docs_dir: docs
+use_directory_urls: true
+
+theme:
+  name: null
+  custom_dir: theme
+
+plugins: []
