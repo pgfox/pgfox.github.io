@@ -3,50 +3,126 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page and page.title and not page.is_homepage %}{{ page.title }} · {% endif %}{{ config.site_name }}</title>
+  <title>{% if page and page.title and not page.is_homepage %}{{ page.parent.title if page.is_index and page.parent else page.title }} · {% endif %}{{ config.site_name }}</title>
   {% if config.site_description %}<meta name="description" content="{{ config.site_description }}">{% endif %}
+  <script>
+    try { if (localStorage.getItem('sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ 'css/style.css' | url }}">
 </head>
 <body>
+  {#- A section's index.md is its landing page: the top bar and breadcrumb link to it. #}
+  {%- macro section_index(section) %}{{ (section.children | selectattr('is_page') | selectattr('is_index') | first or {}).url }}{% endmacro %}
+  {#- Breadcrumb trail; on a section's landing page the section itself is the current page. #}
+  {%- set crumbs = (page.ancestors | reverse | list) if page else [] %}
+  {%- if page and page.is_index and crumbs %}{% set crumbs = crumbs[:-1] %}{% endif %}
+
+  {%- macro toc(items) %}
+  <ul>
+    {%- for item in items %}
+    {%- if item.is_section %}
+    <li>
+      <details class="toc-section"{% if item.active %} open{% endif %}>
+        <summary>{{ item.title }}</summary>
+        {{- toc(item.children) }}
+      </details>
+    </li>
+    {%- elif item.is_page %}
+    <li><a class="toc-link{% if item.active %} selected{% endif %}" href="{{ item.url | url }}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+    {%- endif %}
+    {%- endfor %}
+  </ul>
+  {%- endmacro %}
+
   <header class="topbar">
     <div class="brand">
       <a class="logo" href="{{ nav.homepage.url | url }}">
         {%- if config.extra.logo %}{{ config.extra.logo[0] }}<span>{{ config.extra.logo[1] }}</span>{% else %}{{ config.site_name }}{% endif -%}
       </a>
+      {%- if config.extra.subtitle %}
+      <div class="subtitle">{{ config.extra.subtitle[0] }}<span>{{ config.extra.subtitle[1] }}</span></div>
+      {%- endif %}
       {%- if config.extra.tagline %}
       <div class="tagline">{{ config.extra.tagline }}</div>
       {%- endif %}
     </div>
-    <nav>
+    <nav aria-label="Main">
       {%- for item in nav %}
-      <a href="{{ item.url | url }}"{% if item.active %} class="active"{% endif %}>{{ item.title | upper }}</a>
+      {%- set href = item.url if item.is_page else section_index(item) %}
+      {%- if item.is_page or href %}
+      <a href="{{ href | url }}"{% if item.active %} class="active"{% endif %}>{{ item.title | upper }}</a>
+      {%- endif %}
       {%- endfor %}
     </nav>
+    <button type="button" class="toc-toggle toc-open" aria-controls="sidebar" aria-label="Open contents" aria-expanded="false">☰</button>
   </header>
   <main class="layout">
     <aside id="sidebar">
-      <div class="side-top">
-        <strong>NAVIGATION</strong>
-        <button class="toggle" id="toggle" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+      <div class="toc-head">
+        <button type="button" class="toc-toggle" aria-controls="sidebar" aria-label="Toggle contents" aria-expanded="true">☰</button>
       </div>
-      {%- for item in config.extra.sidebar %}
-      <a class="side-link{% if page and page.url == item.url %} selected{% endif %}" href="{{ item.url | url }}">
-        <span class="symbol">{{ item.icon }}</span><span class="side-label">{{ item.title }}</span>
-      </a>
-      {%- endfor %}
+      <nav class="toc" aria-label="Contents">
+        <div class="toc-main">
+          {{- toc(nav.items | selectattr('is_page') | list) }}
+        </div>
+        {{- toc(nav.items | selectattr('is_section') | list) }}
+      </nav>
     </aside>
+    <div class="toc-backdrop" id="toc-backdrop"></div>
     <article class="content">
+      {%- if crumbs %}
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="{{ nav.homepage.url | url }}">Home</a></li>
+          {%- for ancestor in crumbs %}
+          {%- set ancestor_url = section_index(ancestor) %}
+          <li>{% if ancestor_url %}<a href="{{ ancestor_url | url }}">{{ ancestor.title }}</a>{% else %}{{ ancestor.title }}{% endif %}</li>
+          {%- endfor %}
+          <li aria-current="page">{{ page.title }}</li>
+        </ol>
+      </nav>
+      {%- endif %}
       {{ page.content }}
     </article>
   </main>
   <script>
-    document.getElementById('toggle').addEventListener('click', function () {
-      var collapsed = document.getElementById('sidebar').classList.toggle('collapsed');
-      this.setAttribute('aria-expanded', String(!collapsed));
-    });
+    (function () {
+      var root = document.documentElement;
+      var toggles = document.querySelectorAll('.toc-toggle');
+      var mobile = window.matchMedia('(max-width: 760px)');
+
+      function sync() {
+        var open = mobile.matches ? root.dataset.drawer === 'open' : root.dataset.sidebar !== 'collapsed';
+        toggles.forEach(function (t) { t.setAttribute('aria-expanded', String(open)); });
+      }
+      function closeDrawer() {
+        delete root.dataset.drawer;
+        sync();
+      }
+
+      function onToggle() {
+        if (mobile.matches) {
+          if (root.dataset.drawer === 'open') delete root.dataset.drawer;
+          else root.dataset.drawer = 'open';
+        } else {
+          var collapse = root.dataset.sidebar !== 'collapsed';
+          if (collapse) root.dataset.sidebar = 'collapsed';
+          else delete root.dataset.sidebar;
+          try { localStorage.setItem('sidebar', collapse ? 'collapsed' : 'expanded'); } catch (e) {}
+        }
+        sync();
+      }
+      toggles.forEach(function (t) { t.addEventListener('click', onToggle); });
+      document.getElementById('toc-backdrop').addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && root.dataset.drawer === 'open') closeDrawer();
+      });
+      mobile.addEventListener('change', closeDrawer);
+      sync();
+    })();
   </script>
 </body>
 </html>
