@@ -7,4 +7,19 @@ theme:
   name: null
   custom_dir: theme
 
+nav:
+  - Home: index.md
+  - Portfolio: portfolio.md
+  - About me: aboutme.md
+  - Contact: contact.md
+
+extra:
+  logo: ["Patrick ", Fox]
+  tagline: Software Engineering | Data Engineering | Applied Data Science
+  sidebar:
+    - { title: Overview, url: "", icon: "⌂" }
+    - { title: Portfolio, url: portfolio/, icon: "▦" }
+    - { title: About me, url: aboutme/, icon: "◫" }
+    - { title: Contact, url: contact/, icon: "✉" }
+
 plugins: []

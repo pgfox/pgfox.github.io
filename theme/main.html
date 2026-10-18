@@ -7,17 +7,46 @@
   {% if config.site_description %}<meta name="description" content="{{ config.site_description }}">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ 'css/style.css' | url }}">
 </head>
 <body>
-  <main class="container">
-    <header>
-      <a class="site-name" href="{{ nav.homepage.url | url }}">{{ config.site_name }}</a>
-    </header>
-    <article>
+  <header class="topbar">
+    <div class="brand">
+      <a class="logo" href="{{ nav.homepage.url | url }}">
+        {%- if config.extra.logo %}{{ config.extra.logo[0] }}<span>{{ config.extra.logo[1] }}</span>{% else %}{{ config.site_name }}{% endif -%}
+      </a>
+      {%- if config.extra.tagline %}
+      <div class="tagline">{{ config.extra.tagline }}</div>
+      {%- endif %}
+    </div>
+    <nav>
+      {%- for item in nav %}
+      <a href="{{ item.url | url }}"{% if item.active %} class="active"{% endif %}>{{ item.title | upper }}</a>
+      {%- endfor %}
+    </nav>
+  </header>
+  <main class="layout">
+    <aside id="sidebar">
+      <div class="side-top">
+        <strong>NAVIGATION</strong>
+        <button class="toggle" id="toggle" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+      </div>
+      {%- for item in config.extra.sidebar %}
+      <a class="side-link{% if page and page.url == item.url %} selected{% endif %}" href="{{ item.url | url }}">
+        <span class="symbol">{{ item.icon }}</span><span class="side-label">{{ item.title }}</span>
+      </a>
+      {%- endfor %}
+    </aside>
+    <article class="content">
       {{ page.content }}
     </article>
   </main>
+  <script>
+    document.getElementById('toggle').addEventListener('click', function () {
+      var collapsed = document.getElementById('sidebar').classList.toggle('collapsed');
+      this.setAttribute('aria-expanded', String(!collapsed));
+    });
+  </script>
 </body>
 </html>
