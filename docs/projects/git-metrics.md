@@ -281,18 +281,4 @@ A test page for the Git metrics project: an automated pipeline that takes a chec
 </script>
 </div>
 </div>
-<script>
-document.querySelectorAll('.tabs').forEach(function (tabs) {
-  var buttons = tabs.querySelectorAll('[role="tab"]');
-  buttons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      buttons.forEach(function (b) {
-        var active = b === button;
-        b.setAttribute('aria-selected', String(active));
-        document.getElementById(b.getAttribute('aria-controls')).hidden = !active;
-      });
-    });
-  });
-});
-</script>
 </div>

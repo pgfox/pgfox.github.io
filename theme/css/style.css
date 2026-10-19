@@ -454,6 +454,8 @@ html[data-sidebar="collapsed"] .toc-head {
 
 .tab-panel .pipeline { margin: 10px 0 0; }
 
+.tab-panel.media { padding: 20px 24px; }
+
 @media (prefers-reduced-motion: reduce) {
   aside { transition: none; }
 }

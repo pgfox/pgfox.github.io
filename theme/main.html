@@ -123,6 +123,20 @@
       mobile.addEventListener('change', closeDrawer);
       sync();
     })();
+
+    // Tabbed panes in page content (.tabs with role="tab" buttons).
+    document.querySelectorAll('.tabs').forEach(function (tabs) {
+      var buttons = tabs.querySelectorAll('[role="tab"]');
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          buttons.forEach(function (b) {
+            var active = b === button;
+            b.setAttribute('aria-selected', String(active));
+            document.getElementById(b.getAttribute('aria-controls')).hidden = !active;
+          });
+        });
+      });
+    });
   </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ nav:
   - Projects:
       - Overview: projects/index.md
       - Git Metrics Pipeline: projects/git-metrics.md
+      - Video Demo: projects/video-demo.md
   - About me: aboutme.md
   - Contact: contact.md
 
