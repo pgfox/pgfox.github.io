@@ -1,8 +1,7 @@
 # Text classification with Vector Embeddings
 
-As part of my MSc in Applied Information and Data Science (HSLU), I worked with IMPACT initiatives on text classification. The constraint was that it had to run locally on a consumer-grade laptop with limited resources (standard office machine). 
 
-From a technical perspective, the goal was to understand which embedding spaces are more effective when applied to IMPACT's data.
+As part of my MSc in Applied Information and Data Science (HSLU), I worked with IMPACT Initiatives on text classification. The basic idea was to take a text, create an embedding, and feed that into a classifier which would assign one or more of the defined labels. The goal of my thesis was to work out which embedding space would be more effective for IMPACT's data.
 
 <div class="pipeline">
 <style>
@@ -64,6 +63,15 @@ From a technical perspective, the goal was to understand which embedding spaces 
 </div>
 <p class="pipeline-caption">Illustrative flow · text → embedding model → vector → classifier</p>
 </div>
+
+### Problem and motivation
+
+IMPACT Initiatives currently goes through its crisis focus-group and interview transcripts by hand to find recurring "talking points," which is slow. The idea is to automate this with NLP, mainly by comparing different ways of turning text into vectors (embeddings) for classification. Any solution has to run on field laptops without a guaranteed GPU.
+
+
+## Data Preprocessing
+
+Whole transcripts were far longer than BERT's 512-token limit, so each one was split into question–answer pairs (median 142 words). This gave more training samples, each focused on one or two topics. Labels only existed for whole transcripts, though, so a locally run Llama 3.1 suggested which ones applied to each chunk.
 
 <div class="pipeline">
 <div class="scroller">
@@ -139,6 +147,9 @@ From a technical perspective, the goal was to understand which embedding spaces 
 <p class="pipeline-caption">Labelling flow · transcripts + saturation grid → local LLM suggests labels → manual review → curated data</p>
 </div>
 
+The data was split into training and test sets with a multi-label stratified split, and the test set was held out untouched. The training set was quadrupled with a locally run Gemma 27B - French and German back-translation plus paraphrasing. Back-translation kept the meaning closer to the original.
+
+
 <div class="pipeline">
 <div class="scroller">
 <svg viewBox="0 0 1340 550" role="img" aria-label="Hand-drawn augmentation flow: curated texts are split into a test dataset of 129 texts and a training dataset of 512 texts; the training dataset is back-translated via French, back-translated via German, copied forward and paraphrased, and the four results form an augmented training dataset of 2048 texts">
@@ -212,6 +223,8 @@ From a technical perspective, the goal was to understand which embedding spaces 
 <p class="pipeline-caption">Augmentation flow · curated texts → train / test split → four augmentation processes → augmented training set</p>
 </div>
 
+## Embedding Models
+
 <div class="pipeline models">
 <style>
 .models table{width:100%;max-width:960px;margin:0 auto;border-collapse:collapse;font:16px system-ui,sans-serif;color:var(--dark);background:var(--paper)}
@@ -241,6 +254,8 @@ From a technical perspective, the goal was to understand which embedding spaces 
 <p class="pipeline-caption">The two embedding spaces projected below · pretrained BERT base and sBERT fine-tuned with SetFit</p>
 </div>
 
+Each embedding space was viewed in 3D with UMAP. The pretrained BERT model (below left) showed no clustering  while the sBERT fine-tuned on SetFit space (below right) showed the clearest clusters per label.
+
 <div class="videos">
 <style>
 .videos{display:flex;gap:24px;align-items:flex-start;max-width:860px;margin:30px auto}
@@ -254,6 +269,11 @@ From a technical perspective, the goal was to understand which embedding spaces 
 <div class="video"><div style="padding:113.92% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1238314136?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;autoplay=1&amp;muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="SetFit_t2"></iframe></div></div>
 </div>
 <script src="https://player.vimeo.com/api/player.js"></script>
+
+## Results by Classifier
+
+The embeddings acted as a feature to a traditional classifier. The classifiers were Logistic Regression, SVC (both wrapped in One-vs-Rest) and Random Forest, each tuned with randomized search. Results were compared using Hamming loss - the share of individual label predictions that are wrong.
+
 
 <div class="pipeline models results">
 <style>
@@ -290,18 +310,8 @@ From a technical perspective, the goal was to understand which embedding spaces 
 <p class="pipeline-caption">Classification results per embedding space · Hamming loss (lower is better)</p>
 </div>
 
-<div class="pipeline models results">
-<div class="table-wrap">
-<table>
-<thead><tr><th scope="col">Embedding model</th><th scope="col" class="num">CPU-only machine</th><th scope="col" class="num">GPU machine</th><th scope="col"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ranking</span></th></tr></thead>
-<tbody>
-<tr><td>Word2Vec</td><td class="num">10 s</td><td class="num">&lt;10 s</td><td class="mark"></td></tr>
-<tr><td>Pretrained BERT base</td><td class="num">1800 s</td><td class="num">15 s</td><td class="mark"></td></tr>
-<tr><td>Fine-tuned BERT base</td><td class="num">1800 s</td><td class="num">15 s</td><td class="mark"></td></tr>
-<tr><td>Pretrained sBERT</td><td class="num">120 s</td><td class="num">10 s</td><td class="mark"></td></tr>
-<tr class="best"><td>sBERT fine-tuned with SetFit</td><td class="num">120 s</td><td class="num">10 s</td><td class="mark"><svg viewBox="0 0 48 20" aria-hidden="true"><path d="M44 10 Q 26 11 8 10 M15 3 L6 10 L15 17" class="arrow"/></svg>Best</td></tr>
-</tbody>
-</table>
-</div>
-<p class="pipeline-caption">Embedding generation time per model · all times in seconds</p>
-</div>
+SetFit-tuned sBERT had the best score with every classifier. The best pairing was SetFit with Random Forest, at a Hamming loss of 0.0775 (about 92% of label predictions correct).
+
+## Full Thesis
+
+The full thesis (redacted) is available on GitHub: [Fox_Patrick_Master_Thesis_Redacted.pdf](https://github.com/pgfox/thesis_embedding_classification/blob/main/Fox_Patrick_Master_Thesis_Redacted.pdf).
