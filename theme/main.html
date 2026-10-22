@@ -30,7 +30,8 @@
         {{- toc(item.children) }}
       </details>
     </li>
-    {%- elif item.is_page %}
+    {#- A section's landing page is reached via the top bar, so the tree skips it. #}
+    {%- elif item.is_page and not (item.is_index and item.parent) %}
     <li><a class="toc-link{% if item.active %} selected{% endif %}" href="{{ item.url | url }}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
     {%- endif %}
     {%- endfor %}

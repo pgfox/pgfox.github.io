@@ -12,6 +12,7 @@ nav:
   - Projects:
       - Overview: projects/index.md
       - Git Metrics Pipeline: projects/git-metrics.md
+      - Classification with Vector Embeddings: projects/msc-thesis.md
   - About me: aboutme.md
   - Contact: contact.md
 
