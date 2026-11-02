@@ -26,7 +26,9 @@
     {%- if item.is_section %}
     <li>
       <details class="toc-section"{% if item.active %} open{% endif %}>
-        <summary>{{ item.title }}</summary>
+        {#- A nested section with a landing page gets a clickable heading. #}
+        {%- set index_url = section_index(item) | string if item.parent else '' %}
+        <summary>{% if index_url %}<a class="toc-section-link{% if page and page.url == index_url %} selected{% endif %}" href="{{ index_url | url }}"{% if page and page.url == index_url %} aria-current="page"{% endif %}>{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</summary>
         {{- toc(item.children) }}
       </details>
     </li>

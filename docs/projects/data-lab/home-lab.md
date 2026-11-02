@@ -1,0 +1,3 @@
+# Home Lab
+
+*Coming soon.*

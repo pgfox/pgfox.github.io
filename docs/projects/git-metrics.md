@@ -1,4 +1,4 @@
-# Git Metrics Pipeline
+# Artemis Metric Pipeline
 
 A test page for the Git metrics project: an automated pipeline that takes a checked-out repository all the way to an analytics dashboard. The animation follows one document as it pauses inside each step.
 

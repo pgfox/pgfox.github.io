@@ -11,8 +11,21 @@ nav:
   - Home: index.md
   - Projects:
       - Overview: projects/index.md
-      - Git Metrics Pipeline: projects/git-metrics.md
+      - Artemis Metric Pipeline: projects/git-metrics.md
       - Classification with Vector Embeddings: projects/msc-thesis.md
+      - Self-Hosted Data Lab:
+          - projects/data-lab/index.md
+          - Architecture: projects/data-lab/architecture.md
+          - Single Sign-On: projects/data-lab/sso.md
+          - Setup: projects/data-lab/setup.md
+          - Services:
+              - Prefect: projects/data-lab/services/prefect.md
+              - Superset: projects/data-lab/services/superset.md
+              - Grafana: projects/data-lab/services/grafana.md
+              - SeaweedFS: projects/data-lab/services/seaweedfs.md
+              - pgAdmin: projects/data-lab/services/pgadmin.md
+              - PostgreSQL: projects/data-lab/services/postgres.md
+          - Home Lab: projects/data-lab/home-lab.md
   - About me: aboutme.md
   - Contact: contact.md
 
