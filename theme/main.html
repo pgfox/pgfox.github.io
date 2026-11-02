@@ -18,7 +18,7 @@
   {%- macro section_index(section) %}{{ (section.children | selectattr('is_page') | selectattr('is_index') | first or {}).url }}{% endmacro %}
   {#- Breadcrumb trail; on a section's landing page the section itself is the current page. #}
   {%- set crumbs = (page.ancestors | reverse | list) if page else [] %}
-  {%- if page and page.is_index and crumbs %}{% set crumbs = crumbs[:-1] %}{% endif %}
+  {%- if page and page.parent and page.url == section_index(page.parent) | string %}{% set crumbs = crumbs[:-1] %}{% endif %}
 
   {%- macro toc(items) %}
   <ul>
@@ -26,14 +26,15 @@
     {%- if item.is_section %}
     <li>
       <details class="toc-section"{% if item.active %} open{% endif %}>
-        {#- A nested section with a landing page gets a clickable heading. #}
-        {%- set index_url = section_index(item) | string if item.parent else '' %}
+        {#- A section with a landing page gets a clickable heading. #}
+        {%- set index_url = section_index(item) | string %}
         <summary>{% if index_url %}<a class="toc-section-link{% if page and page.url == index_url %} selected{% endif %}" href="{{ index_url | url }}"{% if page and page.url == index_url %} aria-current="page"{% endif %}>{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</summary>
         {{- toc(item.children) }}
       </details>
     </li>
-    {#- A section's landing page is reached via the top bar, so the tree skips it. #}
-    {%- elif item.is_page and not (item.is_index and item.parent) %}
+    {#- A section's landing page is reached via its heading, so the tree skips it.
+        Other index.md pages (e.g. projects/artemis-metrics/index.md) are listed. #}
+    {%- elif item.is_page and not (item.parent and item.url == section_index(item.parent) | string) %}
     <li><a class="toc-link{% if item.active %} selected{% endif %}" href="{{ item.url | url }}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
     {%- endif %}
     {%- endfor %}

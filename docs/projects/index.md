@@ -7,7 +7,8 @@ A selection of recent work, experiments, and things I've built.
     <div class="icon">⇢</div>
     <h3>Artemis Metric Pipeline</h3>
     <p>Extracting metrics from Git repositories into PostgreSQL, modelled with dbt and visualised in Superset.</p>
-    <a href="git-metrics/">View project →</a>
+    <ul class="tags"><li>dbt</li><li>orchestration</li><li>BI tools</li><li>fact/dim schema</li></ul>
+    <a href="artemis-metrics/">View project →</a>
   </article>
   <article class="card">
     <div class="icon">✎</div>

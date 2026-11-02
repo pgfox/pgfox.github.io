@@ -11,7 +11,15 @@ nav:
   - Home: index.md
   - Projects:
       - Overview: projects/index.md
-      - Artemis Metric Pipeline: projects/git-metrics.md
+      - Artemis Metric Pipeline:
+          - projects/artemis-metrics/index.md
+          - Setup: projects/artemis-metrics/setup.md
+          - Orchestration: projects/artemis-metrics/orchestration.md
+          - Transformation: projects/artemis-metrics/transformation.md
+          - Release: projects/artemis-metrics/release.md
+          - Observability: projects/artemis-metrics/observability.md
+          - Playbook:
+              - projects/artemis-metrics/playbook/index.md
       - Classification with Vector Embeddings: projects/msc-thesis.md
       - Self-Hosted Data Lab:
           - projects/data-lab/index.md

@@ -365,9 +365,9 @@ html[data-sidebar="collapsed"] .toc-head {
 }
 
 .card .tags li {
-  background: var(--tint);
+  background: #d6d6d6;
   border-radius: 999px;
-  color: #416900;
+  color: #000;
   font-size: 12px;
   font-weight: 600;
   padding: 3px 10px;

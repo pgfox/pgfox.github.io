@@ -296,3 +296,27 @@ document.querySelectorAll('.tabs').forEach(function (tabs) {
 });
 </script>
 </div>
+
+
+## superset BI
+
+(video)
+
+## observablity
+
+(video)
+
+## where is it running
+dev
+cloud (see data-lab project)
+
+
+## release/deploy
+
+Docker 
+
+./release (dev box)
+./smoke_test
+./deploy
+
+GHCR 
