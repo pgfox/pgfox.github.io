@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if page and page.title and not page.is_homepage %}{{ page.parent.title if page.is_index and page.parent else page.title }} · {% endif %}{{ config.site_name }}</title>
   {% if config.site_description %}<meta name="description" content="{{ config.site_description }}">{% endif %}
+  {#- Pages under Projects always open with the sidebar expanded, so the project tree is visible;
+      elsewhere the last ☰ choice is remembered. #}
+  {%- set in_projects = page and page.url.startswith('projects/') %}
   <script>
-    try { if (localStorage.getItem('sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
+    try { if ({{ 'false' if in_projects else 'true' }} && localStorage.getItem('sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +28,11 @@
     {%- for item in items %}
     {%- if item.is_section %}
     <li>
-      <details class="toc-section"{% if item.active %} open{% endif %}>
+      {#- Open the current page's own groups; on a project's landing page, also open
+          every group nested inside that project (e.g. Artemis opens Playbook). #}
+      {%- set on_landing = page and page.parent and page.parent.parent and page.url == section_index(page.parent) | string %}
+      {%- set expand = item.active or (on_landing and page.parent in item.ancestors) %}
+      <details class="toc-section"{% if expand %} open{% endif %}>
         {#- A section with a landing page gets a clickable heading. #}
         {%- set index_url = section_index(item) | string %}
         <summary>{% if index_url %}<a class="toc-section-link{% if page and page.url == index_url %} selected{% endif %}" href="{{ index_url | url }}"{% if page and page.url == index_url %} aria-current="page"{% endif %}>{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}</summary>
