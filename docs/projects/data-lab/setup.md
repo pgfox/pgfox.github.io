@@ -6,10 +6,11 @@
 
 git checkout (for probably)
 
-compose commands
+docker compose up
 
-?? will it use the owners or my GCHR for deploying components.
-?? or is that even important for that.
+?? will it use the owners or my GCHR for deploying components. ?? 
+
+deploy superset dashboards/charts
 
 ## Dev setup
 
