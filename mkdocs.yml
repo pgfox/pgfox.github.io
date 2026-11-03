@@ -33,6 +33,9 @@ nav:
               - SeaweedFS: projects/data-lab/services/seaweedfs.md
               - pgAdmin: projects/data-lab/services/pgadmin.md
               - PostgreSQL: projects/data-lab/services/postgres.md
+              - Caddy: projects/data-lab/services/caddy.md
+              - Authelia: projects/data-lab/services/authelia.md
+              - LLDAP: projects/data-lab/services/lldap.md
           - Home Lab: projects/data-lab/home-lab.md
   - About me: aboutme.md
   - Contact: contact.md
