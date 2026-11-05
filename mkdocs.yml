@@ -18,6 +18,7 @@ nav:
           - Transformation: projects/artemis-metrics/transformation.md
           - Release: projects/artemis-metrics/release.md
           - Observability: projects/artemis-metrics/observability.md
+          - Identity & Access: projects/artemis-metrics/identity-access.md
           - Playbook:
               - projects/artemis-metrics/playbook/index.md
       - Classification with Vector Embeddings: projects/msc-thesis.md
