@@ -1,4 +1,4 @@
-# Self-Hosted Data Lab
+# Self-Hosted Data Stack
 
 I wanted a data stack I could reuse for my own data projects, that was fully opensource.
 
@@ -39,13 +39,12 @@ It provides common functionality for data projects, including:
 .pipeline{position:relative}
 .pipeline .hit{fill:transparent;cursor:help;outline:none}
 .pipeline .hit:hover,.pipeline .hit:focus-visible,.pipeline .hit.is-active{stroke:#acbcaa;stroke-width:1.5;stroke-dasharray:3 5}
-.pipeline .dl-tip{position:absolute;z-index:5;max-width:280px;padding:8px 12px;border:1px solid #d7dacd;border-radius:8px;background:#fff;box-shadow:0 4px 14px #536b5626;color:var(--dark);font:13px/1.45 system-ui,sans-serif;pointer-events:none;transform:translateX(-50%)}
+.pipeline .dl-tip{position:absolute;z-index:5;max-width:280px;padding:8px 12px;border:1px solid #d7dacd;border-radius:8px;background:#fff;box-shadow:0 4px 14px #536b5626;color:var(--dark);font:13px/1.45 system-ui,sans-serif;transform:translateX(-50%)}
+.pipeline .dl-tip a{display:block;margin-top:6px;color:var(--dark);font-weight:600;text-decoration:underline}
 .pipeline .dl-tip strong{display:block;margin-bottom:2px;font-family:ui-monospace,monospace;font-size:13px}
 .pipeline .pipeline-caption{text-align:center;max-width:none;margin-top:12px;font:14px system-ui,sans-serif;color:#80917d}
-.pipeline .pipeline-hint{text-align:center;max-width:none;margin:0 0 8px;font:italic 13px system-ui,sans-serif;color:#80917d}
 @media (max-width:760px){.pipeline .scroller{overflow-x:auto;padding-bottom:8px}.pipeline .scroller svg{min-width:1090px}}
 </style>
-<p class="pipeline-hint">Hover over (or tap) a container for more details</p>
 <div class="scroller">
 <svg viewBox="165 -6 1340 782" role="img" aria-label="Hand-drawn architecture map of one Docker Compose project on one machine. Caddy routes to three groups of containers. Identity: Authelia checks logins against LLDAP. Data: SeaweedFS provides S3 storage, Prefect uses its support database prefect-db, Superset reads Postgres and its support database superset-db, and pgAdmin manages Postgres. Observability: Blackbox probes feed Prometheus, Alloy ships container logs to Loki, and Grafana reads both.">
 <defs><marker id="dl-arrowhead" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L10 6 L1 11" class="arrow"/></marker></defs>
@@ -79,7 +78,7 @@ It provides common functionality for data projects, including:
 <path d="M-20 2 H20 M9 -9 L20 2 L9 13"/>
 </g>
 <g class="label"><text x="290" y="478">Caddy</text></g>
-<g class="desc"><text x="290" y="498">caddy-proxy · HTTPS 80/443</text></g>
+<g class="desc"><text x="290" y="498">caddy-proxy · HTTPS 443</text></g>
 <g class="smallnote"><text x="290" y="516">routes each hostname to its app</text></g>
 
 <!-- Identity -->
@@ -173,37 +172,42 @@ It provides common functionality for data projects, including:
 <g class="desc"><text x="525" y="728">probes every service</text><text x="720" y="728">health metrics</text><text x="940" y="728">dashboards · OIDC login</text><text x="1160" y="728">container logs</text><text x="1360" y="728">ships all logs</text></g>
 <!-- Hover areas: one per container, text shown in the pop-up -->
 <g class="hits">
-<rect class="hit" x="185" y="348" width="210" height="176" rx="12" tabindex="0" data-name="caddy-proxy" data-tip="Reverse proxy. Serves HTTPS on 80/443 and sends each *-dev.pgfox.dev hostname to its app." aria-label="caddy-proxy: Reverse proxy. Serves HTTPS on 80/443 and sends each *-dev.pgfox.dev hostname to its app."/>
-<rect class="hit" x="560" y="70" width="120" height="110" rx="12" tabindex="0" data-name="authelia" data-tip="SSO login portal (auth-dev.pgfox.dev). Guards the forward-auth sites (pgAdmin, Prefect, LLDAP, SeaweedFS admin) and is the OIDC provider for Grafana and Superset." aria-label="authelia: SSO login portal (auth-dev.pgfox.dev). Guards the forward-auth sites (pgAdmin, Prefect, LLDAP, SeaweedFS admin) and is the OIDC provider for Grafana and Superset."/>
-<rect class="hit" x="840" y="62" width="120" height="124" rx="12" tabindex="0" data-name="lldap" data-tip="User directory (LDAP). Authelia checks logins against it." aria-label="lldap: User directory (LDAP). Authelia checks logins against it."/>
-<rect class="hit" x="460" y="416" width="120" height="114" rx="12" tabindex="0" data-name="seaweedfs" data-tip="S3-compatible object storage, plus its admin UI." aria-label="seaweedfs: S3-compatible object storage, plus its admin UI."/>
-<rect class="hit" x="715" y="266" width="90" height="104" rx="12" tabindex="0" data-name="prefect" data-tip="Workflow orchestration server and UI." aria-label="prefect: Workflow orchestration server and UI."/>
+<rect class="hit" x="185" y="348" width="210" height="176" rx="12" tabindex="0" data-name="caddy-proxy" data-href="services/caddy/" data-tip="Reverse proxy. Serves HTTPS on 80/443 and sends each *.pgfox.dev hostname to its app." aria-label="caddy-proxy: Reverse proxy. Serves HTTPS on 80/443 and sends each *.pgfox.dev hostname to its app."/>
+<rect class="hit" x="560" y="70" width="120" height="110" rx="12" tabindex="0" data-name="authelia" data-href="services/authelia/" data-tip="SSO login portal (auth.pgfox.dev). Guards the forward-auth sites (pgAdmin, Prefect, LLDAP, SeaweedFS admin) and is the OIDC provider for Grafana and Superset." aria-label="authelia: SSO login portal (auth.pgfox.dev). Guards the forward-auth sites (pgAdmin, Prefect, LLDAP, SeaweedFS admin) and is the OIDC provider for Grafana and Superset."/>
+<rect class="hit" x="840" y="62" width="120" height="124" rx="12" tabindex="0" data-name="lldap" data-href="services/lldap/" data-tip="User directory (LDAP). Authelia checks logins against it." aria-label="lldap: User directory (LDAP). Authelia checks logins against it."/>
+<rect class="hit" x="460" y="416" width="120" height="114" rx="12" tabindex="0" data-name="seaweedfs" data-href="services/seaweedfs/" data-tip="S3-compatible object storage, plus its admin UI." aria-label="seaweedfs: S3-compatible object storage, plus its admin UI."/>
+<rect class="hit" x="715" y="266" width="90" height="104" rx="12" tabindex="0" data-name="prefect" data-href="services/prefect/" data-tip="Workflow orchestration server and UI." aria-label="prefect: Workflow orchestration server and UI."/>
 <rect class="hit" x="700" y="416" width="120" height="114" rx="12" tabindex="0" data-name="prefect-db" data-tip="Postgres for Prefect&#x27;s flows and runs." aria-label="prefect-db: Postgres for Prefect&#x27;s flows and runs."/>
-<rect class="hit" x="1015" y="266" width="90" height="104" rx="12" tabindex="0" data-name="superset" data-tip="BI / charting app (also the lab-dev.pgfox.dev site). Charts appdb." aria-label="superset: BI / charting app (also the lab-dev.pgfox.dev site). Charts appdb."/>
-<rect class="hit" x="1255" y="266" width="90" height="104" rx="12" tabindex="0" data-name="pgadmin" data-tip="Web admin UI for Postgres." aria-label="pgadmin: Web admin UI for Postgres."/>
+<rect class="hit" x="1015" y="266" width="90" height="104" rx="12" tabindex="0" data-name="superset" data-href="services/superset/" data-tip="BI / charting app (also the lab.pgfox.dev site). Charts appdb." aria-label="superset: BI / charting app (also the lab.pgfox.dev site). Charts appdb."/>
+<rect class="hit" x="1255" y="266" width="90" height="104" rx="12" tabindex="0" data-name="pgadmin" data-href="services/pgadmin/" data-tip="Web admin UI for Postgres." aria-label="pgadmin: Web admin UI for Postgres."/>
 <rect class="hit" x="940" y="416" width="120" height="114" rx="12" tabindex="0" data-name="superset-db" data-tip="Postgres for Superset&#x27;s own metadata (users, dashboards)." aria-label="superset-db: Postgres for Superset&#x27;s own metadata (users, dashboards)."/>
-<rect class="hit" x="1120" y="416" width="120" height="114" rx="12" tabindex="0" data-name="postgres" data-tip="Main app database (appdb). Host port 15432." aria-label="postgres: Main app database (appdb). Host port 15432."/>
+<rect class="hit" x="1120" y="416" width="120" height="114" rx="12" tabindex="0" data-name="postgres" data-href="services/postgres/" data-tip="Main app database (appdb). Host port 15432." aria-label="postgres: Main app database (appdb). Host port 15432."/>
 <rect class="hit" x="450" y="610" width="150" height="126" rx="12" tabindex="0" data-name="blackbox" data-tip="Probes each service&#x27;s health endpoint for Prometheus." aria-label="blackbox: Probes each service&#x27;s health endpoint for Prometheus."/>
 <rect class="hit" x="660" y="610" width="120" height="126" rx="12" tabindex="0" data-name="prometheus" data-tip="Stores health-probe metrics." aria-label="prometheus: Stores health-probe metrics."/>
-<rect class="hit" x="848" y="610" width="184" height="126" rx="12" tabindex="0" data-name="grafana" data-tip="Dashboards for health probes and logs." aria-label="grafana: Dashboards for health probes and logs."/>
+<rect class="hit" x="848" y="610" width="184" height="126" rx="12" tabindex="0" data-name="grafana" data-href="services/grafana/" data-tip="Dashboards for health probes and logs." aria-label="grafana: Dashboards for health probes and logs."/>
 <rect class="hit" x="1100" y="610" width="120" height="126" rx="12" tabindex="0" data-name="loki" data-tip="Stores logs collected from the containers." aria-label="loki: Stores logs collected from the containers."/>
 <rect class="hit" x="1295" y="610" width="130" height="126" rx="12" tabindex="0" data-name="alloy" data-tip="Ships every container&#x27;s logs to Loki." aria-label="alloy: Ships every container&#x27;s logs to Loki."/>
 </g>
 </svg>
 </div>
-<p class="pipeline-caption">Dev stack · one Docker network · prod is the same with a <code>prod-</code> prefix</p>
-<div class="dl-tip" role="tooltip" hidden><strong></strong><span></span></div>
+<div class="dl-tip" role="tooltip" hidden><strong></strong><span></span><a hidden>more info →</a></div>
 <script>
 (function () {
   var box = document.currentScript.closest('.pipeline');
   var tip = box.querySelector('.dl-tip');
-  var active = null;
+  var link = tip.querySelector('a');
+  var active = null, hideTimer = null;
+  function cancelHide() { clearTimeout(hideTimer); hideTimer = null; }
+  function hideSoon() { cancelHide(); hideTimer = setTimeout(hide, 250); }
   function show(hit) {
+    cancelHide();
     if (active) active.classList.remove('is-active');
     active = hit;
     hit.classList.add('is-active');
     tip.querySelector('strong').textContent = hit.dataset.name;
     tip.querySelector('span').textContent = hit.dataset.tip;
+    if (hit.dataset.href) { link.href = hit.dataset.href; link.hidden = false; }
+    else { link.removeAttribute('href'); link.hidden = true; }
     tip.hidden = false;
     var b = box.getBoundingClientRect(), r = hit.getBoundingClientRect();
     var half = tip.offsetWidth / 2;
@@ -214,18 +218,24 @@ It provides common functionality for data projects, including:
     tip.style.top = y + 'px';
   }
   function hide() {
+    cancelHide();
     if (active) active.classList.remove('is-active');
     active = null;
     tip.hidden = true;
   }
   box.querySelectorAll('.hit').forEach(function (hit) {
     hit.addEventListener('pointerenter', function () { show(hit); });
-    hit.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hide(); });
+    hit.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hideSoon(); });
     hit.addEventListener('focus', function () { show(hit); });
-    hit.addEventListener('blur', hide);
+    hit.addEventListener('blur', function (e) { if (!tip.contains(e.relatedTarget)) hide(); });
+    hit.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && hit.dataset.href) location.href = hit.dataset.href;
+    });
   });
+  tip.addEventListener('pointerenter', cancelHide);
+  tip.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hideSoon(); });
   document.addEventListener('pointerdown', function (e) {
-    if (active && !e.target.closest('.hit')) hide();
+    if (active && !e.target.closest('.hit') && !tip.contains(e.target)) hide();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
 })();
@@ -234,9 +244,35 @@ It provides common functionality for data projects, including:
 
 
 ##  Tools used 
-It runs within one docker compose file on a single machine. I have a 'dev' version of the data lab running on my home network and a 'simulated prod' version that is running a VPS in the cloud (public internet)
+
+| Component | What it does | |
+|---|---|---|
+| Caddy | Reverse proxy. Serves HTTPS and routes each `*.pgfox.dev` hostname to its app. | [more info](services/caddy.md) |
+| Authelia | Single sign-on portal. Guards the admin sites and provides OIDC login for Grafana and Superset. | [more info](services/authelia.md) |
+| LLDAP | User directory (LDAP). Authelia checks logins against it. | [more info](services/lldap.md) |
+| SeaweedFS | S3-compatible object storage, with an admin UI. | [more info](services/seaweedfs.md) |
+| Prefect | Workflow orchestration server and UI. | [more info](services/prefect.md) |
+| Superset | BI and charting app. Charts the main app database. | [more info](services/superset.md) |
+| PostgreSQL | Main app database (appdb). | [more info](services/postgres.md) |
+| pgAdmin | Web admin UI for Postgres. | [more info](services/pgadmin.md) |
+| Blackbox | Probes each service's health endpoint for Prometheus. | |
+| Prometheus | Stores health-probe metrics. | |
+| Grafana | Dashboards for health probes and logs. | [more info](services/grafana.md) |
+| Loki | Stores logs collected from the containers. | |
+| Alloy | Ships every container's logs to Loki. | |
 
 
+##  Observability
+
+I use grafana for observability dashboards. 
+
+Below is a taste of some of the dashboards - start with the docker container status (for each component/tool in the docker compose netwwork) and an overview of the requests coming into caddy and which compoentents are being called. 
+
+The second dashboard focuses on where these requests are coming from - the time of requests, the source ip and the location 
+
+
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1244231845?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Observability_Docker_containers"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 
 
@@ -247,18 +283,3 @@ I prioritised ease of use and functionality. I wanted something that is simple t
 
 It does have some security features rolled in such as SSL, Authentication and Single Sign on. But is not production hardened. 
 
-#
-
-
-
-
-## Single sign-on
-
-- see 
-## Data tools
-
-## Observability
-
-## Dev vs prod
-
-## What I'd change for production

@@ -18,7 +18,7 @@ A selection of recent work, experiments, and things I've built.
   </article>
   <article class="card">
     <div class="icon">⚙</div>
-    <h3>Self-Hosted Data Lab</h3>
+    <h3>Self-Hosted Data Stack</h3>
     <p>SSO, orchestration, BI and monitoring in Docker Compose, with a dev stack locally and a production-style copy in the cloud.</p>
     <ul class="tags"><li>docker</li><li>db</li><li>grafana</li></ul>
     <a href="data-lab/">View project →</a>

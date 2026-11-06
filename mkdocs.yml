@@ -22,11 +22,11 @@ nav:
           - Playbook:
               - projects/artemis-metrics/playbook/index.md
       - Classification with Vector Embeddings: projects/msc-thesis.md
-      - Self-Hosted Data Lab:
+      - Self-Hosted Data Stack:
           - projects/data-lab/index.md
-          - Status: projects/data-lab/status.md
+          - Live Status: projects/data-lab/status.md
           - Single Sign-On: projects/data-lab/sso.md
-          - Setup: projects/data-lab/setup.md
+          - Deployment Steps: projects/data-lab/setup.md
           - Services:
               - Prefect: projects/data-lab/services/prefect.md
               - Superset: projects/data-lab/services/superset.md

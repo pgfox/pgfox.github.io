@@ -290,6 +290,38 @@ html[data-sidebar="collapsed"] .toc-head {
   max-width: 640px;
 }
 
+/* Tables */
+
+.content table {
+  border-collapse: collapse;
+  margin: 36px 0 24px;
+  font-size: 15px;
+  border: 2px solid var(--muted);
+  background: #fff;
+}
+
+.content th,
+.content td {
+  padding: 14px 18px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--side-border);
+  line-height: 1.6;
+}
+
+.content th {
+  background: var(--side-bg);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.content td {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.content td a { white-space: nowrap; }
+
 .eyebrow {
   font-size: 12px;
   color: var(--accent);
@@ -486,4 +518,36 @@ html[data-sidebar="collapsed"] .toc-head {
 /* Space above section headings so sections read as separate blocks. */
 .content h2 {
   margin-top: 48px;
+}
+
+/* Embed panel (iframes such as Grafana dashboards) */
+
+.content .embed {
+  margin: 36px 0 24px;
+  border: 2px solid var(--muted);
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.content .embed-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: var(--side-bg);
+  border-bottom: 1px solid var(--side-border);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.content .embed-head a {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.content .embed iframe {
+  display: block;
 }

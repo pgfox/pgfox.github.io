@@ -271,7 +271,7 @@ document.querySelectorAll('.tabs').forEach(function (tabs) {
 
 ## where is it running
 dev
-cloud (see data-lab project)
+cloud (see Self-Hosted Data Stack project)
 
 
 ## release/deploy
