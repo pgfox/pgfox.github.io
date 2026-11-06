@@ -24,7 +24,7 @@ nav:
       - Classification with Vector Embeddings: projects/msc-thesis.md
       - Self-Hosted Data Lab:
           - projects/data-lab/index.md
-          - Architecture: projects/data-lab/architecture.md
+          - Status: projects/data-lab/status.md
           - Single Sign-On: projects/data-lab/sso.md
           - Setup: projects/data-lab/setup.md
           - Services:

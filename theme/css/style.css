@@ -482,3 +482,8 @@ html[data-sidebar="collapsed"] .toc-head {
 @media (prefers-reduced-motion: reduce) {
   aside { transition: none; }
 }
+
+/* Space above section headings so sections read as separate blocks. */
+.content h2 {
+  margin-top: 48px;
+}
