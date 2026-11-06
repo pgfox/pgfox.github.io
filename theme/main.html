@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {#- No home page: the site root sends visitors to Projects. #}
+  {%- if page and page.is_homepage %}
+  <meta http-equiv="refresh" content="0; url={{ 'projects/' | url }}">
+  <link rel="canonical" href="{{ config.site_url }}projects/">
+  {%- endif %}
   <title>{% if page and page.title and not page.is_homepage %}{{ page.parent.title if page.is_index and page.parent else page.title }} · {% endif %}{{ config.site_name }}</title>
   {% if config.site_description %}<meta name="description" content="{{ config.site_description }}">{% endif %}
   {#- Pages under Projects always open with the sidebar expanded, so the project tree is visible;
@@ -29,9 +34,11 @@
     {%- if item.is_section %}
     <li>
       {#- Open the current page's own groups; on a project's landing page, also open
-          every group nested inside that project (e.g. Artemis opens Playbook). #}
+          every group nested inside that project (e.g. Artemis opens Playbook),
+          except groups listed in extra.sidebar_collapsed (e.g. Services). #}
       {%- set on_landing = page and page.parent and page.parent.parent and page.url == section_index(page.parent) | string %}
-      {%- set expand = item.active or (on_landing and page.parent in item.ancestors) %}
+      {%- set keep_closed = item.title in (config.extra.sidebar_collapsed or []) %}
+      {%- set expand = item.active or (on_landing and page.parent in item.ancestors and not keep_closed) %}
       <details class="toc-section"{% if expand %} open{% endif %}>
         {#- A section with a landing page gets a clickable heading. #}
         {%- set index_url = section_index(item) | string %}
@@ -50,7 +57,7 @@
 
   <header class="topbar">
     <div class="brand">
-      <a class="logo" href="{{ nav.homepage.url | url }}">
+      <a class="logo" href="{{ 'projects/' | url }}">
         {%- if config.extra.logo %}{{ config.extra.logo[0] }}<span>{{ config.extra.logo[1] }}</span>{% else %}{{ config.site_name }}{% endif -%}
       </a>
       {%- if config.extra.subtitle %}
@@ -87,7 +94,6 @@
       {%- if crumbs %}
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
-          <li><a href="{{ nav.homepage.url | url }}">Home</a></li>
           {%- for ancestor in crumbs %}
           {%- set ancestor_url = section_index(ancestor) %}
           <li>{% if ancestor_url %}<a href="{{ ancestor_url | url }}">{{ ancestor.title }}</a>{% else %}{{ ancestor.title }}{% endif %}</li>

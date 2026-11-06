@@ -42,9 +42,11 @@ It provides common functionality for data projects, including:
 .pipeline .dl-tip{position:absolute;z-index:5;max-width:280px;padding:8px 12px;border:1px solid #d7dacd;border-radius:8px;background:#fff;box-shadow:0 4px 14px #536b5626;color:var(--dark);font:13px/1.45 system-ui,sans-serif;transform:translateX(-50%)}
 .pipeline .dl-tip a{display:block;margin-top:6px;color:var(--dark);font-weight:600;text-decoration:underline}
 .pipeline .dl-tip strong{display:block;margin-bottom:2px;font-family:ui-monospace,monospace;font-size:13px}
+.pipeline .pipeline-hint{max-width:none;margin:0 0 12px;text-align:right;font:500 15px/1.4 system-ui,sans-serif;color:var(--dark)}
 .pipeline .pipeline-caption{text-align:center;max-width:none;margin-top:12px;font:14px system-ui,sans-serif;color:#80917d}
 @media (max-width:760px){.pipeline .scroller{overflow-x:auto;padding-bottom:8px}.pipeline .scroller svg{min-width:1090px}}
 </style>
+<p class="pipeline-hint">Hover over elements for more details</p>
 <div class="scroller">
 <svg viewBox="165 -6 1340 782" role="img" aria-label="Hand-drawn architecture map of one Docker Compose project on one machine. Caddy routes to three groups of containers. Identity: Authelia checks logins against LLDAP. Data: SeaweedFS provides S3 storage, Prefect uses its support database prefect-db, Superset reads Postgres and its support database superset-db, and pgAdmin manages Postgres. Observability: Blackbox probes feed Prometheus, Alloy ships container logs to Loki, and Grafana reads both.">
 <defs><marker id="dl-arrowhead" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L10 6 L1 11" class="arrow"/></marker></defs>
@@ -261,6 +263,23 @@ It provides common functionality for data projects, including:
 | Loki | Stores logs collected from the containers. | |
 | Alloy | Ships every container's logs to Loki. | |
 
+## Environments
+
+I have deployed this Data Stack project in two places. One runs on a server in my home network ( a development environment) and the other on a VPS in the cloud (a simulated production environment). 
+
+The dev enviromment is more open - some of the docker container listening on 'host' ports as well as listening on the docker network. This makes development a easier to work with and less constraint. 
+
+The Production environment is more restricted. The docker containers only listen on the docker network. All traffic entering the network go through the Caddy gateway. The Caddy gateway only accepts requests from a CloudFlare proxy that is configured infront of Caddy.
+
+
+| | Dev | Simulated prod |
+|---|---|---|
+| Where it runs | Home network | VPS in the cloud |
+| Reachable from | Home network only | Public internet |
+| Hostnames | `*-dev.pgfox.dev` (e.g. `lab-dev.pgfox.dev`) | `*.pgfox.dev` (e.g. `lab.pgfox.dev`) |
+
+
+
 
 ##  Observability
 
@@ -272,9 +291,11 @@ The second dashboard focuses on where these requests are coming from - the time 
 
 
 
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1244231845?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Observability_Docker_containers"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<div style="padding:56.25% 0 0 0;position:relative;margin:36px 0 40px;"><iframe src="https://player.vimeo.com/video/1244231845?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Observability_Docker_containers"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 
+
+The health of the Data Stack running on the VPS is shown in [Live Status](status.md) page.
 
 
 ## Limitations

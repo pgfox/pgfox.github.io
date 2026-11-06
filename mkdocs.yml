@@ -8,7 +8,6 @@ theme:
   custom_dir: theme
 
 nav:
-  - Home: index.md
   - Projects:
       - Overview: projects/index.md
       - Artemis Metric Pipeline:
@@ -24,9 +23,6 @@ nav:
       - Classification with Vector Embeddings: projects/msc-thesis.md
       - Self-Hosted Data Stack:
           - projects/data-lab/index.md
-          - Live Status: projects/data-lab/status.md
-          - Single Sign-On: projects/data-lab/sso.md
-          - Deployment Steps: projects/data-lab/setup.md
           - Services:
               - Prefect: projects/data-lab/services/prefect.md
               - Superset: projects/data-lab/services/superset.md
@@ -37,7 +33,9 @@ nav:
               - Caddy: projects/data-lab/services/caddy.md
               - Authelia: projects/data-lab/services/authelia.md
               - LLDAP: projects/data-lab/services/lldap.md
-          - Home Lab: projects/data-lab/home-lab.md
+          - Live Status: projects/data-lab/status.md
+          - Single Sign-On: projects/data-lab/sso.md
+          - Deployment Steps: projects/data-lab/setup.md
   - About me: aboutme.md
   - Contact: contact.md
 
@@ -45,5 +43,7 @@ extra:
   logo: ["Patrick ", Fox]
   subtitle: ["Engineering ", Notebook]
   tagline: Software Engineering | Data Engineering | Applied Data Science
+  # Sidebar groups that stay closed on a project's landing page (they still open when you are inside them).
+  sidebar_collapsed: [Services]
 
 plugins: []

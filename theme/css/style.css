@@ -290,6 +290,14 @@ html[data-sidebar="collapsed"] .toc-head {
   max-width: 640px;
 }
 
+/* Lists read like the paragraphs around them. */
+.content ul,
+.content ol {
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 640px;
+}
+
 /* Tables */
 
 .content table {
@@ -315,9 +323,11 @@ html[data-sidebar="collapsed"] .toc-head {
   color: var(--ink);
 }
 
+/* Cell text reads like the paragraphs around the table. */
 .content td {
   font-weight: 400;
-  color: var(--ink);
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .content td a { white-space: nowrap; }
@@ -365,7 +375,28 @@ html[data-sidebar="collapsed"] .toc-head {
 }
 
 /* One card per row, e.g. the Projects list. */
-.cards.stacked { grid-template-columns: 1fr; }
+.cards.stacked { grid-template-columns: 1fr; gap: 24px; }
+
+/* Project cards: strong top/left edge fading to a light bottom/right, plus a shadow. */
+.cards.stacked .card {
+  border: 2px solid;
+  /* top, right, bottom, left */
+  border-color: var(--muted) var(--side-border) var(--side-border) var(--muted);
+  box-shadow: 0 2px 4px #2133220f, 0 10px 28px #21332214;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.cards.stacked .card:hover,
+.cards.stacked .card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px #21332214, 0 16px 36px #2133221f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cards.stacked .card { transition: none; }
+  .cards.stacked .card:hover,
+  .cards.stacked .card:focus-within { transform: none; }
+}
 
 .card {
   background: #fff;
@@ -381,6 +412,28 @@ html[data-sidebar="collapsed"] .toc-head {
 }
 
 .card h3 { margin: 18px 0 8px; }
+.card h3:first-child { margin-top: 0; }
+
+/* Card titles are the links to each project. */
+.card h3 a {
+  display: inline;
+  margin: 0;
+  color: var(--ink);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.card h3 a:hover,
+.card h3 a:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.card h3 a::after {
+  content: " →";
+  color: var(--accent);
+}
 
 .card p {
   font-size: 14px;
