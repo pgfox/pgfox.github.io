@@ -1,7 +1,13 @@
 # Text classification with Vector Embeddings
 
 
-As part of my MSc in Applied Information and Data Science (HSLU), I worked with IMPACT Initiatives on text classification. The basic idea was to take a text, create an embedding, and feed that into a classifier which would assign one or more of the defined labels. The goal of my thesis was to work out which embedding space would be more effective for IMPACT's data.
+As part of my MSc in Applied Information and Data Science (HSLU), I worked with [IMPACT Initiatives](IMPACT.md) on text classification. The basic idea was to take a text, create an embedding, and feed that into a classifier which would assign one or more of the defined labels. The goal of my thesis was to work out which embedding space would be more effective for IMPACT's data.
+
+## Problem and motivation
+
+IMPACT Initiatives currently goes through its crisis focus-group and interview transcripts by hand to find recurring "talking points," which is slow. The idea is to automate this with NLP, mainly by comparing different ways of turning text into vectors (embeddings) for classification. Any solution has to run on field laptops without a guaranteed GPU.
+
+## Approach
 
 <div class="pipeline">
 <style>
@@ -64,12 +70,9 @@ As part of my MSc in Applied Information and Data Science (HSLU), I worked with 
 <p class="pipeline-caption">Illustrative flow · text → embedding model → vector → classifier</p>
 </div>
 
-### Problem and motivation
-
-IMPACT Initiatives currently goes through its crisis focus-group and interview transcripts by hand to find recurring "talking points," which is slow. The idea is to automate this with NLP, mainly by comparing different ways of turning text into vectors (embeddings) for classification. Any solution has to run on field laptops without a guaranteed GPU.
-
-
 ## Data Preprocessing
+
+### Chunking and labelling
 
 Whole transcripts were far longer than BERT's 512-token limit, so each one was split into question–answer pairs (median 142 words). This gave more training samples, each focused on one or two topics. Labels only existed for whole transcripts, though, so a locally run Llama 3.1 suggested which ones applied to each chunk.
 
@@ -146,6 +149,8 @@ Whole transcripts were far longer than BERT's 512-token limit, so each one was s
 </div>
 <p class="pipeline-caption">Labelling flow · transcripts + saturation grid → local LLM suggests labels → manual review → curated data</p>
 </div>
+
+### Train/test split and augmentation
 
 The data was split into training and test sets with a multi-label stratified split, and the test set was held out untouched. The training set was quadrupled with a locally run Gemma 27B - French and German back-translation plus paraphrasing. Back-translation kept the meaning closer to the original.
 
@@ -253,6 +258,8 @@ The data was split into training and test sets with a multi-label stratified spl
 </table>
 <p class="pipeline-caption">The two embedding spaces projected below · pretrained BERT base and sBERT fine-tuned with SetFit</p>
 </div>
+
+### Visualising the embedding spaces
 
 Each embedding space was viewed in 3D with UMAP. The pretrained BERT model (below left) showed no clustering  while the sBERT fine-tuned on SetFit space (below right) showed the clearest clusters per label.
 

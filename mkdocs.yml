@@ -20,7 +20,9 @@ nav:
           - Identity & Access: projects/artemis-metrics/identity-access.md
           - Playbook:
               - projects/artemis-metrics/playbook/index.md
-      - Classification with Vector Embeddings: projects/msc-thesis.md
+      - Classification with Vector Embeddings:
+          - projects/msc-thesis/index.md
+          - Who is IMPACT: projects/msc-thesis/IMPACT.md
       - Self-Hosted Data Stack:
           - projects/data-lab/index.md
           - Services:
