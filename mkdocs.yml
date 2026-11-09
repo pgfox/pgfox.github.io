@@ -12,7 +12,7 @@ nav:
       - Overview: projects/index.md
       - Artemis Metric Pipeline:
           - projects/artemis-metrics/index.md
-          - Setup: projects/artemis-metrics/setup.md
+          - Deployment Steps: projects/artemis-metrics/setup.md
           - Orchestration: projects/artemis-metrics/orchestration.md
           - Transformation: projects/artemis-metrics/transformation.md
           - Release: projects/artemis-metrics/release.md
