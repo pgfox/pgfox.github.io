@@ -332,6 +332,37 @@ html[data-sidebar="collapsed"] .toc-head {
 
 .content td a { white-space: nowrap; }
 
+/* Code */
+
+.content code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: .9em;
+  background: var(--tint);
+  color: var(--ink);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.content pre {
+  margin: 20px 0 24px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--accent-light);
+  border-radius: 8px;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.content pre code {
+  background: none;
+  padding: 0;
+  font-size: 13.5px;
+  white-space: pre;
+}
+
+.content td code { white-space: nowrap; }
+
 .eyebrow {
   font-size: 12px;
   color: var(--accent);

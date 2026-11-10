@@ -14,6 +14,9 @@ nav:
           - projects/artemis-metrics/index.md
           - Deployment Steps: projects/artemis-metrics/setup.md
           - Orchestration: projects/artemis-metrics/orchestration.md
+          - Extract:
+              - projects/artemis-metrics/extract/index.md
+              - Extract Commits: projects/artemis-metrics/extract/extract_commits.md
           - Transformation: projects/artemis-metrics/transformation.md
           - Release: projects/artemis-metrics/release.md
           - Observability: projects/artemis-metrics/observability.md
