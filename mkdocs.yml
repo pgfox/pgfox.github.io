@@ -17,6 +17,8 @@ nav:
           - Extract:
               - projects/artemis-metrics/extract/index.md
               - Extract Commits: projects/artemis-metrics/extract/extract_commits.md
+              - Extract Jira: projects/artemis-metrics/extract/extract_jira.md
+              - Jira Data Model: projects/artemis-metrics/extract/JIRA_data.md
           - Transformation: projects/artemis-metrics/transformation.md
           - Release: projects/artemis-metrics/release.md
           - Observability: projects/artemis-metrics/observability.md
