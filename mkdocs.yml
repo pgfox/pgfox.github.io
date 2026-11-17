@@ -17,6 +17,7 @@ nav:
           - Data Ingestion:
               - projects/artemis-metrics/data-ingestion/index.md
               - Extract Commits: projects/artemis-metrics/data-ingestion/extract_commits.md
+              - Commit Data Model: projects/artemis-metrics/data-ingestion/commit_data.md
               - Extract Pull Requests: projects/artemis-metrics/data-ingestion/extract_pr.md
               - PR Data Model: projects/artemis-metrics/data-ingestion/PR_data.md
               - Extract Jira: projects/artemis-metrics/data-ingestion/extract_jira.md
